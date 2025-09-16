@@ -49,7 +49,7 @@ namespace WpfApp2.Pages
                             break;
                         default:
                             MessageBox.Show("Данные не обнаружены!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            break;
+                            break; 
                     }
                 }
             }
