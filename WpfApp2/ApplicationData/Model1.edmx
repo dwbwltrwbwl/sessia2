@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище sessia2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ed_izmerenias">
+          <Key>
+            <PropertyRef Name="id_ed_izm" />
+          </Key>
+          <Property Name="id_ed_izm" Type="int" Nullable="false" />
+          <Property Name="ed_izm" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mat_types">
+          <Key>
+            <PropertyRef Name="id_mat_type" />
+          </Key>
+          <Property Name="id_mat_type" Type="int" Nullable="false" />
+          <Property Name="mat_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="materials">
+          <Key>
+            <PropertyRef Name="id_mat" />
+          </Key>
+          <Property Name="id_mat" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_mat_type" Type="int" />
+          <Property Name="count_upakovka" Type="int" />
+          <Property Name="id_ed_izm" Type="int" />
+          <Property Name="count_sklad" Type="int" />
+          <Property Name="min_ostatok" Type="int" />
+          <Property Name="cost" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="pokupkas">
+          <Key>
+            <PropertyRef Name="id_pokupka" />
+          </Key>
+          <Property Name="id_pokupka" Type="int" Nullable="false" />
+          <Property Name="id_prod" Type="int" />
+          <Property Name="id_mat" Type="int" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="prod_types">
+          <Key>
+            <PropertyRef Name="id_prod_type" />
+          </Key>
+          <Property Name="id_prod_type" Type="int" Nullable="false" />
+          <Property Name="prod_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_prod" />
+          </Key>
+          <Property Name="id_prod" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" />
+          <Property Name="articul" Type="nvarchar" MaxLength="50" />
+          <Property Name="min_cost_for_agent" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_prod_type" Type="int" />
+          <Property Name="count_people" Type="int" />
+          <Property Name="number_ceh" Type="int" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" />
+        </EntityType>
+        <Association Name="FK_materials_ed_izmerenias">
+          <End Role="ed_izmerenias" Type="Self.ed_izmerenias" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ed_izmerenias">
+              <PropertyRef Name="id_ed_izm" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_ed_izm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materials_mat_types">
+          <End Role="mat_types" Type="Self.mat_types" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mat_types">
+              <PropertyRef Name="id_mat_type" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_mat_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pokupkas_materials">
+          <End Role="materials" Type="Self.materials" Multiplicity="0..1" />
+          <End Role="pokupkas" Type="Self.pokupkas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materials">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="pokupkas">
+              <PropertyRef Name="id_mat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pokupkas_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="pokupkas" Type="Self.pokupkas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_prod" />
+            </Principal>
+            <Dependent Role="pokupkas">
+              <PropertyRef Name="id_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_prod_types">
+          <End Role="prod_types" Type="Self.prod_types" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prod_types">
+              <PropertyRef Name="id_prod_type" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_prod_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище sessia2ModelContainer">
+          <EntitySet Name="ed_izmerenias" EntityType="Self.ed_izmerenias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mat_types" EntityType="Self.mat_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="materials" EntityType="Self.materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pokupkas" EntityType="Self.pokupkas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prod_types" EntityType="Self.prod_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_materials_ed_izmerenias" Association="Self.FK_materials_ed_izmerenias">
+            <End Role="ed_izmerenias" EntitySet="ed_izmerenias" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materials_mat_types" Association="Self.FK_materials_mat_types">
+            <End Role="mat_types" EntitySet="mat_types" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pokupkas_materials" Association="Self.FK_pokupkas_materials">
+            <End Role="materials" EntitySet="materials" />
+            <End Role="pokupkas" EntitySet="pokupkas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pokupkas_products" Association="Self.FK_pokupkas_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="pokupkas" EntitySet="pokupkas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_prod_types" Association="Self.FK_products_prod_types">
+            <End Role="prod_types" EntitySet="prod_types" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sessia2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ed_izmerenias">
+          <Key>
+            <PropertyRef Name="id_ed_izm" />
+          </Key>
+          <Property Name="id_ed_izm" Type="Int32" Nullable="false" />
+          <Property Name="ed_izm" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_materials_ed_izmerenias" FromRole="ed_izmerenias" ToRole="materials" />
+        </EntityType>
+        <EntityType Name="mat_types">
+          <Key>
+            <PropertyRef Name="id_mat_type" />
+          </Key>
+          <Property Name="id_mat_type" Type="Int32" Nullable="false" />
+          <Property Name="mat_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_materials_mat_types" FromRole="mat_types" ToRole="materials" />
+        </EntityType>
+        <EntityType Name="materials">
+          <Key>
+            <PropertyRef Name="id_mat" />
+          </Key>
+          <Property Name="id_mat" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_mat_type" Type="Int32" />
+          <Property Name="count_upakovka" Type="Int32" />
+          <Property Name="id_ed_izm" Type="Int32" />
+          <Property Name="count_sklad" Type="Int32" />
+          <Property Name="min_ostatok" Type="Int32" />
+          <Property Name="cost" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="ed_izmerenias" Relationship="Self.FK_materials_ed_izmerenias" FromRole="materials" ToRole="ed_izmerenias" />
+          <NavigationProperty Name="mat_types" Relationship="Self.FK_materials_mat_types" FromRole="materials" ToRole="mat_types" />
+          <NavigationProperty Name="pokupkas" Relationship="Self.FK_pokupkas_materials" FromRole="materials" ToRole="pokupkas" />
+        </EntityType>
+        <EntityType Name="pokupkas">
+          <Key>
+            <PropertyRef Name="id_pokupka" />
+          </Key>
+          <Property Name="id_pokupka" Type="Int32" Nullable="false" />
+          <Property Name="id_prod" Type="Int32" />
+          <Property Name="id_mat" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="materials" Relationship="Self.FK_pokupkas_materials" FromRole="pokupkas" ToRole="materials" />
+          <NavigationProperty Name="products" Relationship="Self.FK_pokupkas_products" FromRole="pokupkas" ToRole="products" />
+        </EntityType>
+        <EntityType Name="prod_types">
+          <Key>
+            <PropertyRef Name="id_prod_type" />
+          </Key>
+          <Property Name="id_prod_type" Type="Int32" Nullable="false" />
+          <Property Name="prod_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="products" Relationship="Self.FK_products_prod_types" FromRole="prod_types" ToRole="products" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id_prod" />
+          </Key>
+          <Property Name="id_prod" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="articul" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="min_cost_for_agent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_prod_type" Type="Int32" />
+          <Property Name="count_people" Type="Int32" />
+          <Property Name="number_ceh" Type="Int32" />
+          <NavigationProperty Name="pokupkas" Relationship="Self.FK_pokupkas_products" FromRole="products" ToRole="pokupkas" />
+          <NavigationProperty Name="prod_types" Relationship="Self.FK_products_prod_types" FromRole="products" ToRole="prod_types" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="role_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_materials_ed_izmerenias">
+          <End Role="ed_izmerenias" Type="Self.ed_izmerenias" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ed_izmerenias">
+              <PropertyRef Name="id_ed_izm" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_ed_izm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_materials_mat_types">
+          <End Role="mat_types" Type="Self.mat_types" Multiplicity="0..1" />
+          <End Role="materials" Type="Self.materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mat_types">
+              <PropertyRef Name="id_mat_type" />
+            </Principal>
+            <Dependent Role="materials">
+              <PropertyRef Name="id_mat_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pokupkas_materials">
+          <End Role="materials" Type="Self.materials" Multiplicity="0..1" />
+          <End Role="pokupkas" Type="Self.pokupkas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="materials">
+              <PropertyRef Name="id_mat" />
+            </Principal>
+            <Dependent Role="pokupkas">
+              <PropertyRef Name="id_mat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pokupkas_products">
+          <End Role="products" Type="Self.products" Multiplicity="0..1" />
+          <End Role="pokupkas" Type="Self.pokupkas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id_prod" />
+            </Principal>
+            <Dependent Role="pokupkas">
+              <PropertyRef Name="id_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_products_prod_types">
+          <End Role="prod_types" Type="Self.prod_types" Multiplicity="0..1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="prod_types">
+              <PropertyRef Name="id_prod_type" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="id_prod_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sessia2Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ed_izmerenias" EntityType="Self.ed_izmerenias" />
+          <EntitySet Name="mat_types" EntityType="Self.mat_types" />
+          <EntitySet Name="materials" EntityType="Self.materials" />
+          <EntitySet Name="pokupkas" EntityType="Self.pokupkas" />
+          <EntitySet Name="prod_types" EntityType="Self.prod_types" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="roles" EntityType="Self.roles" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK_materials_ed_izmerenias" Association="Self.FK_materials_ed_izmerenias">
+            <End Role="ed_izmerenias" EntitySet="ed_izmerenias" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_materials_mat_types" Association="Self.FK_materials_mat_types">
+            <End Role="mat_types" EntitySet="mat_types" />
+            <End Role="materials" EntitySet="materials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pokupkas_materials" Association="Self.FK_pokupkas_materials">
+            <End Role="materials" EntitySet="materials" />
+            <End Role="pokupkas" EntitySet="pokupkas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pokupkas_products" Association="Self.FK_pokupkas_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="pokupkas" EntitySet="pokupkas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_products_prod_types" Association="Self.FK_products_prod_types">
+            <End Role="prod_types" EntitySet="prod_types" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище sessia2ModelContainer" CdmEntityContainer="sessia2Entities2">
+          <EntitySetMapping Name="ed_izmerenias">
+            <EntityTypeMapping TypeName="sessia2Model.ed_izmerenias">
+              <MappingFragment StoreEntitySet="ed_izmerenias">
+                <ScalarProperty Name="id_ed_izm" ColumnName="id_ed_izm" />
+                <ScalarProperty Name="ed_izm" ColumnName="ed_izm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mat_types">
+            <EntityTypeMapping TypeName="sessia2Model.mat_types">
+              <MappingFragment StoreEntitySet="mat_types">
+                <ScalarProperty Name="id_mat_type" ColumnName="id_mat_type" />
+                <ScalarProperty Name="mat_type" ColumnName="mat_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="materials">
+            <EntityTypeMapping TypeName="sessia2Model.materials">
+              <MappingFragment StoreEntitySet="materials">
+                <ScalarProperty Name="id_mat" ColumnName="id_mat" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id_mat_type" ColumnName="id_mat_type" />
+                <ScalarProperty Name="count_upakovka" ColumnName="count_upakovka" />
+                <ScalarProperty Name="id_ed_izm" ColumnName="id_ed_izm" />
+                <ScalarProperty Name="count_sklad" ColumnName="count_sklad" />
+                <ScalarProperty Name="min_ostatok" ColumnName="min_ostatok" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pokupkas">
+            <EntityTypeMapping TypeName="sessia2Model.pokupkas">
+              <MappingFragment StoreEntitySet="pokupkas">
+                <ScalarProperty Name="id_pokupka" ColumnName="id_pokupka" />
+                <ScalarProperty Name="id_prod" ColumnName="id_prod" />
+                <ScalarProperty Name="id_mat" ColumnName="id_mat" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prod_types">
+            <EntityTypeMapping TypeName="sessia2Model.prod_types">
+              <MappingFragment StoreEntitySet="prod_types">
+                <ScalarProperty Name="id_prod_type" ColumnName="id_prod_type" />
+                <ScalarProperty Name="prod_type" ColumnName="prod_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="sessia2Model.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id_prod" ColumnName="id_prod" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="articul" ColumnName="articul" />
+                <ScalarProperty Name="min_cost_for_agent" ColumnName="min_cost_for_agent" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id_prod_type" ColumnName="id_prod_type" />
+                <ScalarProperty Name="count_people" ColumnName="count_people" />
+                <ScalarProperty Name="number_ceh" ColumnName="number_ceh" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="sessia2Model.roles">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="sessia2Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="sessia2Model.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
