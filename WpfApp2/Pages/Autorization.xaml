@@ -9,9 +9,10 @@
       Title="Autorization">
 
     <Grid>
-        <Button x:Name="ButtonVhod" Content="Войти" HorizontalAlignment="Left" Margin="307,260,0,0" VerticalAlignment="Top" Height="41" Width="157" Click="Button_Click"/>
+        <Button x:Name="ButtonVhod" Content="Войти" HorizontalAlignment="Left" Margin="307,260,0,0" VerticalAlignment="Top" Height="41" Width="157" Click="ButtonVhod_Click"/>
         <TextBox x:Name="TBLogin" HorizontalAlignment="Left" Margin="307,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" Height="34"/>
         <PasswordBox x:Name="PBPassword" HorizontalAlignment="Left" Margin="307,225,0,0" VerticalAlignment="Top" Width="157" Height="30"/>
+        <Button x:Name="ButtonVhodGost" Content="Войти как гость" HorizontalAlignment="Left" Margin="287,352,0,0" VerticalAlignment="Top" Height="23" Width="197" Click="Button_Click" Background="#FF4FC6CE" Foreground="#FF041FFF"/>
 
     </Grid>
 </Page>
