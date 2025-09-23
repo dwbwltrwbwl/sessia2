@@ -48,7 +48,7 @@
                                 <TextBlock Width="auto" Height="auto">
                                     <Run Text="Минимальная стоимость для агента: "/>
                                     <Run Text="{Binding min_cost_for_agent}"/>
-                                </TextBlock>
+                                </TextBlock> 
                             </StackPanel>
                         </Grid>
                     </WrapPanel>
