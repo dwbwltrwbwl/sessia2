@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp2.ApplicationData;
 
 namespace WpfApp2.Pages
 {
@@ -20,9 +21,12 @@ namespace WpfApp2.Pages
     /// </summary>
     public partial class DataOutput : Page
     {
+        private List<products> allProducts;
         public DataOutput()
         {
             InitializeComponent();
+            allProducts = AppConnect.model01.products.ToList();
+            listProducts.ItemsSource = allProducts;
         }
     }
 }
